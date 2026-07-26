@@ -1,2 +1,2 @@
-# edotech-studios.github.io/web
+# edotech-studios.github.io
 The official website of edoTech Studios.

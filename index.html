@@ -5,15 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>edoTech Studios</title>
 
-    <!-- 预连接到 Google Fonts 域名，加速字体加载 -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-    <!-- Material Symbols Outlined -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@8..144,100..700&display=swap" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
     <style>
-        /* ===== Reset ===== */
         *,
         *::before,
         *::after {
@@ -28,13 +25,54 @@
         }
 
         body {
-            font-family: -apple-system, "SF Pro Text", "PingFang SC",
+            font-family: 'Google Sans Flex', -apple-system, "SF Pro Text", "PingFang SC",
                 "Helvetica Neue", "Microsoft YaHei", Roboto, Arial, sans-serif;
             background: #f5f5f7;
             color: #1d1d1f;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            font-variation-settings: 'opsz' 16;
+        }
+
+        /* ===== PC 端全局强制隐藏默认光标 ===== */
+        @media (min-width: 769px) {
+            *,
+            *::before,
+            *::after {
+                cursor: none !important;
+            }
+        }
+
+        /* ===== 半透明圆形光标 ===== */
+        .custom-cursor {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 32px;
+            height: 32px;
+            margin-left: -16px;
+            margin-top: -16px;
+            border-radius: 50%;
+            background: rgba(180, 180, 185, 0.25);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            pointer-events: none;
+            z-index: 99999;
+            transition: none;
+        }
+
+        /* ===== 移动端隐藏自定义指针 ===== */
+        @media (max-width: 768px) {
+            *,
+            *::before,
+            *::after {
+                cursor: auto !important;
+            }
+            .custom-cursor {
+                display: none !important;
+            }
         }
 
         /* ================================================================ */
@@ -53,16 +91,9 @@
             transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        #splash.hide {
-            opacity: 0;
-            pointer-events: none;
-        }
+        #splash.hide { opacity: 0; pointer-events: none; }
+        #splash.done { display: none; }
 
-        #splash.done {
-            display: none;
-        }
-
-        /* 光晕背景 */
         #splash::before {
             content: '';
             position: absolute;
@@ -77,25 +108,12 @@
         }
 
         @keyframes glowPulse {
-            0% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0.4);
-            }
-            30% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
-            }
-            70% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1.1);
-            }
-            100% {
-                opacity: 0.6;
-                transform: translate(-50%, -50%) scale(1.2);
-            }
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.4); }
+            30% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            70% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+            100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.2); }
         }
 
-        /* 橙色圆环涟漪 */
         .splash-ring {
             position: absolute;
             top: 50%;
@@ -107,32 +125,15 @@
             border: 2px solid rgba(208, 68, 35, 0.12);
             animation: ringExpand 2.4s ease-out forwards;
         }
-
-        .splash-ring:nth-child(2) {
-            animation-delay: 0.15s;
-            border-color: rgba(208, 68, 35, 0.08);
-        }
-
-        .splash-ring:nth-child(3) {
-            animation-delay: 0.3s;
-            border-color: rgba(208, 68, 35, 0.05);
-        }
+        .splash-ring:nth-child(2) { animation-delay: 0.15s; border-color: rgba(208, 68, 35, 0.08); }
+        .splash-ring:nth-child(3) { animation-delay: 0.3s; border-color: rgba(208, 68, 35, 0.05); }
 
         @keyframes ringExpand {
-            0% {
-                transform: scale(0.5);
-                opacity: 0;
-            }
-            20% {
-                opacity: 1;
-            }
-            100% {
-                transform: scale(6);
-                opacity: 0;
-            }
+            0% { transform: scale(0.5); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: scale(6); opacity: 0; }
         }
 
-        /* 装饰粒子 */
         .splash-particle {
             position: absolute;
             width: 4px;
@@ -142,61 +143,21 @@
             opacity: 0;
             animation: particleFly 1.8s ease-out forwards;
         }
-
-        .splash-particle:nth-child(4) {
-            top: 45%;
-            left: 48%;
-            animation-delay: 0.2s;
-            width: 3px;
-            height: 3px;
-            background: rgba(208, 68, 35, 0.3);
-        }
-        .splash-particle:nth-child(5) {
-            top: 55%;
-            left: 52%;
-            animation-delay: 0.35s;
-            width: 5px;
-            height: 5px;
-            background: rgba(208, 68, 35, 0.15);
-        }
-        .splash-particle:nth-child(6) {
-            top: 48%;
-            left: 55%;
-            animation-delay: 0.5s;
-            width: 3px;
-            height: 3px;
-            background: rgba(208, 68, 35, 0.25);
-        }
-        .splash-particle:nth-child(7) {
-            top: 52%;
-            left: 45%;
-            animation-delay: 0.4s;
-            width: 4px;
-            height: 4px;
-            background: rgba(208, 68, 35, 0.2);
-        }
+        .splash-particle:nth-child(4) { top: 45%; left: 48%; animation-delay: 0.2s; width: 3px; height: 3px; background: rgba(208, 68, 35, 0.3); }
+        .splash-particle:nth-child(5) { top: 55%; left: 52%; animation-delay: 0.35s; width: 5px; height: 5px; background: rgba(208, 68, 35, 0.15); }
+        .splash-particle:nth-child(6) { top: 48%; left: 55%; animation-delay: 0.5s; width: 3px; height: 3px; background: rgba(208, 68, 35, 0.25); }
+        .splash-particle:nth-child(7) { top: 52%; left: 45%; animation-delay: 0.4s; width: 4px; height: 4px; background: rgba(208, 68, 35, 0.2); }
 
         @keyframes particleFly {
-            0% {
-                opacity: 0;
-                transform: translate(0, 0) scale(0);
-            }
-            20% {
-                opacity: 1;
-                transform: translate(0, 0) scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(var(--dx, 60px), var(--dy, -60px)) scale(0);
-            }
+            0% { opacity: 0; transform: translate(0, 0) scale(0); }
+            20% { opacity: 1; transform: translate(0, 0) scale(1); }
+            100% { opacity: 0; transform: translate(var(--dx, 60px), var(--dy, -60px)) scale(0); }
         }
-
         .splash-particle:nth-child(4) { --dx: 70px; --dy: -50px; }
         .splash-particle:nth-child(5) { --dx: -60px; --dy: 60px; }
         .splash-particle:nth-child(6) { --dx: 80px; --dy: 40px; }
         .splash-particle:nth-child(7) { --dx: -70px; --dy: -50px; }
 
-        /* Logo 容器 */
         .splash-logo-wrap {
             position: relative;
             z-index: 1;
@@ -210,14 +171,8 @@
         }
 
         @keyframes logoReveal {
-            0% {
-                opacity: 0;
-                transform: scale(0.85);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
+            0% { opacity: 0; transform: scale(0.85); }
+            100% { opacity: 1; transform: scale(1); }
         }
 
         .splash-logo {
@@ -245,14 +200,8 @@
         }
 
         @keyframes textIn {
-            0% {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
         .splash-divider {
@@ -265,14 +214,8 @@
         }
 
         @keyframes lineGrow {
-            0% {
-                width: 0;
-                opacity: 0;
-            }
-            100% {
-                width: 36px;
-                opacity: 1;
-            }
+            0% { width: 0; opacity: 0; }
+            100% { width: 36px; opacity: 1; }
         }
 
         .splash-sub {
@@ -285,7 +228,6 @@
             animation: textIn 0.6s 0.95s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        /* 隐藏的字体预加载触发器（视觉不可见，仅用于让浏览器下载字体） */
         .font-preloader {
             position: absolute;
             width: 0;
@@ -295,13 +237,12 @@
             pointer-events: none;
         }
 
-        /* ===== App 容器 ===== */
+        /* ===== App ===== */
         .app {
             height: 100vh;
             position: relative;
         }
 
-        /* ===== 页面（独立切换，可滚动） ===== */
         .page {
             display: none;
             min-height: 100vh;
@@ -310,9 +251,7 @@
             overflow-y: auto;
         }
 
-        .page.active {
-            display: flex;
-        }
+        .page.active { display: flex; }
 
         .page-inner {
             display: flex;
@@ -329,7 +268,6 @@
             text-align: center;
         }
 
-        /* ===== 毛玻璃卡片 ===== */
         .glass-card {
             background: rgba(255, 255, 255, 0.65);
             backdrop-filter: blur(32px);
@@ -337,12 +275,9 @@
             border: 1px solid rgba(0, 0, 0, 0.04);
             border-radius: 28px;
             padding: 52px 56px;
-            box-shadow:
-                0 1px 2px rgba(0, 0, 0, 0.02),
-                0 8px 32px rgba(0, 0, 0, 0.02);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02), 0 8px 32px rgba(0, 0, 0, 0.02);
             width: 100%;
-            transition: box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-                transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            transition: box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1), transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
             opacity: 0;
             transform: translateY(24px);
         }
@@ -352,24 +287,15 @@
         }
 
         @keyframes fadeInUp {
-            0% {
-                opacity: 0;
-                transform: translateY(28px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            0% { opacity: 0; transform: translateY(28px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
         .glass-card:hover {
-            box-shadow:
-                0 1px 2px rgba(0, 0, 0, 0.02),
-                0 12px 40px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02), 0 12px 40px rgba(0, 0, 0, 0.03);
             transform: translateY(-2px);
         }
 
-        /* ===== 首页 ===== */
         .hero-logo {
             width: 88px;
             height: 88px;
@@ -392,6 +318,7 @@
             color: #1d1d1f;
             line-height: 1.12;
             margin-bottom: 6px;
+            font-variation-settings: 'opsz' 32, 'wght' 700;
         }
 
         .hero-sub {
@@ -399,6 +326,7 @@
             font-weight: 400;
             color: #6e6e73;
             margin-bottom: 2px;
+            font-variation-settings: 'opsz' 16, 'wght' 400;
         }
 
         .divider {
@@ -414,20 +342,11 @@
         }
 
         @keyframes dividerIn {
-            0% {
-                width: 0;
-                opacity: 0;
-            }
-            100% {
-                width: 32px;
-                opacity: 1;
-            }
+            0% { width: 0; opacity: 0; }
+            100% { width: 32px; opacity: 1; }
         }
 
-        .hero-tagline {
-            font-size: clamp(13px, 0.9vw, 14px);
-            color: #a1a1a6;
-        }
+        .hero-tagline { font-size: clamp(13px, 0.9vw, 14px); color: #a1a1a6; }
 
         .powered-badge {
             display: inline-flex;
@@ -448,10 +367,7 @@
             transform: translateY(-1px);
         }
 
-        .powered-badge strong {
-            font-weight: 600;
-            color: #1d1d1f;
-        }
+        .powered-badge strong { font-weight: 600; color: #1d1d1f; }
 
         .powered-badge .mini-logo {
             width: 22px;
@@ -460,7 +376,6 @@
             flex-shrink: 0;
         }
 
-        /* ===== 作品页 ===== */
         .page-label {
             display: inline-block;
             font-size: 11px;
@@ -469,6 +384,7 @@
             text-transform: uppercase;
             color: #a1a1a6;
             margin-bottom: 10px;
+            font-variation-settings: 'opsz' 8, 'wght' 600;
         }
 
         .works-title {
@@ -477,6 +393,7 @@
             letter-spacing: -0.02em;
             color: #1d1d1f;
             margin-bottom: 2px;
+            font-variation-settings: 'opsz' 28, 'wght' 700;
         }
 
         .works-version {
@@ -513,10 +430,7 @@
             border: 1px solid rgba(0, 0, 0, 0.04);
             border-radius: 18px;
             text-align: center;
-            transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-                background 0.3s ease,
-                border-color 0.3s ease,
-                box-shadow 0.3s ease;
+            transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .feature-item:hover {
@@ -526,10 +440,7 @@
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
         }
 
-        .feature-item .icon {
-            display: block;
-            margin-bottom: 6px;
-        }
+        .feature-item .icon { display: block; margin-bottom: 6px; }
 
         .feature-item .icon .material-symbols-outlined {
             font-size: 24px;
@@ -538,23 +449,11 @@
             transition: transform 0.3s ease;
         }
 
-        .feature-item:hover .icon .material-symbols-outlined {
-            transform: scale(1.12);
-        }
+        .feature-item:hover .icon .material-symbols-outlined { transform: scale(1.12); }
 
-        .feature-item .label {
-            font-size: 13px;
-            font-weight: 500;
-            color: #1d1d1f;
-        }
+        .feature-item .label { font-size: 13px; font-weight: 500; color: #1d1d1f; }
+        .feature-item .desc { font-size: 11px; color: #a1a1a6; margin-top: 2px; }
 
-        .feature-item .desc {
-            font-size: 11px;
-            color: #a1a1a6;
-            margin-top: 2px;
-        }
-
-        /* ===== 按钮 ===== */
         .btn-primary {
             display: inline-flex;
             align-items: center;
@@ -569,12 +468,10 @@
             font-weight: 500;
             font-family: inherit;
             border: none;
-            cursor: pointer;
-            transition: background 0.3s ease,
-                transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
-                box-shadow 0.3s ease;
+            transition: background 0.3s ease, transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
             position: relative;
             overflow: hidden;
+            font-variation-settings: 'opsz' 14, 'wght' 500;
         }
 
         .btn-primary:hover {
@@ -583,9 +480,7 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
         }
 
-        .btn-primary:active {
-            transform: scale(0.97);
-        }
+        .btn-primary:active { transform: scale(0.97); }
 
         .btn-primary svg {
             width: 18px;
@@ -595,17 +490,15 @@
             transition: transform 0.3s ease;
         }
 
-        .btn-primary:hover svg {
-            transform: translateX(2px);
-        }
+        .btn-primary:hover svg { transform: translateX(2px); }
 
-        /* ===== 关于页 ===== */
         .about-title {
             font-size: clamp(28px, 3.8vw, 42px);
             font-weight: 700;
             letter-spacing: -0.02em;
             color: #1d1d1f;
             margin-bottom: 4px;
+            font-variation-settings: 'opsz' 28, 'wght' 700;
         }
 
         .about-desc {
@@ -633,10 +526,7 @@
             background: rgba(0, 0, 0, 0.015);
             border: 1px solid rgba(0, 0, 0, 0.04);
             border-radius: 16px;
-            transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-                background 0.3s ease,
-                border-color 0.3s ease,
-                box-shadow 0.3s ease;
+            transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .info-row:hover {
@@ -663,20 +553,10 @@
             background: rgba(208, 68, 35, 0.06);
         }
 
-        .info-row .icon-box .material-symbols-outlined {
-            font-size: 20px;
-            color: #6e6e73;
-        }
+        .info-row .icon-box .material-symbols-outlined { font-size: 20px; color: #6e6e73; }
 
-        .info-row .text {
-            font-size: 14px;
-            color: #6e6e73;
-        }
-
-        .info-row .text strong {
-            color: #1d1d1f;
-            font-weight: 500;
-        }
+        .info-row .text { font-size: 14px; color: #6e6e73; }
+        .info-row .text strong { color: #1d1d1f; font-weight: 500; }
 
         .info-row .text a {
             color: #1d1d1f;
@@ -685,11 +565,11 @@
             transition: border-color 0.3s ease;
         }
 
-        .info-row .text a:hover {
-            border-bottom-color: rgba(0, 0, 0, 0.2);
-        }
+        .info-row .text a:hover { border-bottom-color: rgba(0, 0, 0, 0.2); }
 
-        /* ===== 底部悬浮导航栏（纯文字） ===== */
+        /* ================================================================ */
+        /*  导航栏                                                          */
+        /* ================================================================ */
         .bottom-nav {
             position: fixed;
             bottom: 28px;
@@ -705,22 +585,20 @@
             -webkit-backdrop-filter: blur(32px) saturate(1.5);
             border: 1px solid rgba(0, 0, 0, 0.04);
             border-radius: 56px;
-            box-shadow:
-                0 1px 2px rgba(0, 0, 0, 0.02),
-                0 4px 12px rgba(0, 0, 0, 0.03),
-                0 8px 24px rgba(0, 0, 0, 0.02);
-            animation: navIn 0.6s 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02), 0 4px 12px rgba(0, 0, 0, 0.03), 0 8px 24px rgba(0, 0, 0, 0.02);
+            animation: navIn 0.7s 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+            width: auto;
+            transition: box-shadow 0.4s ease, background 0.4s ease;
+        }
+
+        .bottom-nav:hover {
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02), 0 6px 20px rgba(0, 0, 0, 0.04), 0 12px 40px rgba(0, 0, 0, 0.04);
+            background: rgba(255, 255, 255, 0.82);
         }
 
         @keyframes navIn {
-            0% {
-                opacity: 0;
-                transform: translateX(-50%) translateY(16px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0);
-            }
+            0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            100% { opacity: 1; transform: translateX(-50%) translateY(0); }
         }
 
         .bottom-nav a {
@@ -734,18 +612,20 @@
             font-size: 14px;
             font-weight: 500;
             letter-spacing: 0.02em;
-            transition: color 0.3s ease,
-                background 0.3s ease;
-            cursor: pointer;
+            transition: color 0.35s ease, background 0.35s ease, transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
             user-select: none;
             white-space: nowrap;
             position: relative;
+            font-variation-settings: 'opsz' 14, 'wght' 500;
         }
 
         .bottom-nav a:hover {
             color: #6e6e73;
             background: rgba(0, 0, 0, 0.02);
+            transform: translateY(-1px);
         }
+
+        .bottom-nav a:active { transform: scale(0.94); }
 
         .bottom-nav a.active {
             color: #1d1d1f;
@@ -763,111 +643,98 @@
             border-radius: 4px;
             background: #d04423;
             opacity: 0.5;
-            transition: width 0.3s ease;
+            transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
         }
 
-        .bottom-nav a.active:hover::after {
-            width: 26px;
+        .bottom-nav a.active:hover::after { width: 26px; }
+
+        @keyframes navPulse {
+            0% { transform: scale(1); }
+            30% { transform: scale(0.92); }
+            70% { transform: scale(1.02); }
+            100% { transform: scale(1); }
         }
 
-        /* ===== 响应式 ===== */
+        .bottom-nav a.pulse { animation: navPulse 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+
+        /* ===== 移动端 ===== */
         @media (max-width: 768px) {
-            .page {
-                padding: 48px 16px 90px;
-            }
-
-            .glass-card {
-                padding: 32px 24px;
-                border-radius: 24px;
-            }
-
-            .hero-logo {
-                width: 64px;
-                height: 64px;
-                margin-bottom: 18px;
-            }
-
-            .hero-title {
-                font-size: 30px;
-            }
-
-            .works-features {
-                grid-template-columns: 1fr 1fr;
-            }
+            .page { padding: 48px 16px 90px; }
+            .glass-card { padding: 32px 24px; border-radius: 24px; }
+            .hero-logo { width: 64px; height: 64px; margin-bottom: 18px; }
+            .hero-title { font-size: 30px; }
+            .works-features { grid-template-columns: 1fr 1fr; }
+            .about-info { max-width: 100%; }
+            .splash-logo { width: 56px; height: 56px; }
 
             .bottom-nav {
-                bottom: 18px;
-                padding: 4px 6px;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                transform: none;
+                width: 100%;
+                border-radius: 0;
+                padding: 6px 4px;
                 gap: 0;
-                animation: none;
-                opacity: 1;
-                transform: translateX(-50%);
+                animation: mobileNavIn 0.5s 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+                box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.02), 0 -4px 12px rgba(0, 0, 0, 0.03);
+                border-left: none;
+                border-right: none;
+                border-bottom: none;
+                border-top: 1px solid rgba(0, 0, 0, 0.04);
+            }
+
+            .bottom-nav:hover {
+                background: rgba(255, 255, 255, 0.75);
+                box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.02), 0 -4px 12px rgba(0, 0, 0, 0.03);
+            }
+
+            @keyframes mobileNavIn {
+                0% { opacity: 0; transform: translateY(20px); }
+                100% { opacity: 1; transform: translateY(0); }
             }
 
             .bottom-nav a {
-                padding: 6px 16px;
+                flex: 1;
+                padding: 10px 8px;
+                border-radius: 20px;
                 font-size: 13px;
+                margin: 0 2px;
             }
+
+            .bottom-nav a:active { transform: scale(0.94); }
+            .bottom-nav a.active { background: rgba(208, 68, 35, 0.06); }
 
             .bottom-nav a.active::after {
-                display: none;
+                display: block;
+                bottom: 3px;
+                width: 16px;
+                height: 2.5px;
+                opacity: 0.5;
             }
 
-            .about-info {
-                max-width: 100%;
-            }
-
-            .splash-logo {
-                width: 56px;
-                height: 56px;
-            }
+            .bottom-nav a.active:hover::after { width: 16px; }
         }
 
         @media (max-width: 480px) {
-            .glass-card {
-                padding: 24px 18px;
-                border-radius: 20px;
-            }
-
-            .hero-title {
-                font-size: 26px;
-            }
-
-            .works-features {
-                grid-template-columns: 1fr;
-            }
-
-            .bottom-nav a {
-                padding: 6px 12px;
-                font-size: 12px;
-            }
+            .glass-card { padding: 24px 18px; border-radius: 20px; }
+            .hero-title { font-size: 26px; }
+            .works-features { grid-template-columns: 1fr; }
+            .bottom-nav a { font-size: 12px; padding: 10px 6px; border-radius: 16px; margin: 0 1px; }
         }
 
-        /* ===== 滚动条 ===== */
-        .page::-webkit-scrollbar {
-            width: 4px;
-        }
+        .page::-webkit-scrollbar { width: 4px; }
+        .page::-webkit-scrollbar-track { background: transparent; }
+        .page::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.06); border-radius: 4px; }
 
-        .page::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .page::-webkit-scrollbar-thumb {
-            background: rgba(0, 0, 0, 0.06);
-            border-radius: 4px;
-        }
-
-        ::selection {
-            background: rgba(208, 68, 35, 0.12);
-            color: #1d1d1f;
-        }
+        ::selection { background: rgba(208, 68, 35, 0.12); color: #1d1d1f; }
     </style>
 </head>
 <body>
 
-    <!-- ================================================================ -->
-    <!-- 华丽开场 Splash                                                   -->
-    <!-- ================================================================ -->
+    <div class="custom-cursor" id="customCursor"></div>
+
+    <!-- Splash -->
     <div id="splash">
         <div class="splash-ring"></div>
         <div class="splash-ring"></div>
@@ -878,17 +745,12 @@
         <div class="splash-particle"></div>
 
         <div class="splash-logo-wrap">
-            <img
-            class="splash-logo"
-            src="https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/product-icon-M365-PowerPoint-48x48?resMode=sharp2&op_usm=1.5,0.65,15,0&wid=48&hei=48&qlt=100&fit=constrain"
-            alt="Microsoft PowerPoint"
-            />
+            <img class="splash-logo" src="https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/product-icon-M365-PowerPoint-48x48?resMode=sharp2&op_usm=1.5,0.65,15,0&wid=48&hei=48&qlt=100&fit=constrain" alt="Microsoft PowerPoint" />
             <div class="splash-title">edoTech Studios</div>
             <div class="splash-divider"></div>
             <div class="splash-sub">Powered by Microsoft PowerPoint</div>
         </div>
 
-        <!-- 隐藏的字体预加载触发器：让浏览器在 Splash 阶段就开始下载 Material Symbols 字体 -->
         <div class="font-preloader">
             <span class="material-symbols-outlined">desktop_windows</span>
             <span class="material-symbols-outlined">package</span>
@@ -901,31 +763,17 @@
     </div>
 
     <div class="app">
-
-        <!-- ============================================================ -->
-        <!-- 首页                                                         -->
-        <!-- ============================================================ -->
         <div class="page active" id="page-home">
             <div class="page-inner">
                 <div class="content">
                     <div class="glass-card">
-                        <img
-                        class="hero-logo"
-                        src="https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/product-icon-M365-PowerPoint-48x48?resMode=sharp2&op_usm=1.5,0.65,15,0&wid=48&hei=48&qlt=100&fit=constrain"
-                        alt="Microsoft PowerPoint"
-                        />
-
+                        <img class="hero-logo" src="https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/product-icon-M365-PowerPoint-48x48?resMode=sharp2&op_usm=1.5,0.65,15,0&wid=48&hei=48&qlt=100&fit=constrain" alt="Microsoft PowerPoint" />
                         <h1 class="hero-title">edoTech Studios</h1>
                         <p class="hero-sub">重新定义演示的可能性</p>
                         <div class="divider"></div>
                         <p class="hero-tagline">一切从幻灯片开始，不止于幻灯片</p>
-
                         <div class="powered-badge">
-                            <img
-                            class="mini-logo"
-                            src="https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/product-icon-M365-PowerPoint-48x48?resMode=sharp2&op_usm=1.5,0.65,15,0&wid=48&hei=48&qlt=100&fit=constrain"
-                            alt=""
-                            />
+                            <img class="mini-logo" src="https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/product-icon-M365-PowerPoint-48x48?resMode=sharp2&op_usm=1.5,0.65,15,0&wid=48&hei=48&qlt=100&fit=constrain" alt="" />
                             <span>Powered by <strong>Microsoft PowerPoint</strong></span>
                         </div>
                     </div>
@@ -933,9 +781,6 @@
             </div>
         </div>
 
-        <!-- ============================================================ -->
-        <!-- 作品页                                                       -->
-        <!-- ============================================================ -->
         <div class="page" id="page-works">
             <div class="page-inner">
                 <div class="content">
@@ -943,11 +788,7 @@
                         <span class="page-label">— 主要项目 —</span>
                         <h2 class="works-title">edoOS 26</h2>
                         <div class="works-version">v26.1-beta.1</div>
-                        <p class="works-desc">
-                            基于 Microsoft PowerPoint 打造的仿真操作系统。<br />
-                            用演示文稿的形式，重新诠释操作系统的交互体验。
-                        </p>
-
+                        <p class="works-desc">基于 Microsoft PowerPoint 打造的仿真操作系统。<br />用演示文稿的形式，重新诠释操作系统的交互体验。</p>
                         <div class="works-features">
                             <div class="feature-item">
                                 <span class="icon"><span class="material-symbols-outlined">desktop_windows</span></span>
@@ -970,11 +811,8 @@
                                 <div class="desc">installer.pptx</div>
                             </div>
                         </div>
-
                         <button class="btn-primary" onclick="window.open('https://github.com/MacroYing/edoOS', '_blank')">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-                            </svg>
+                            <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
                             在 GitHub 上查看
                         </button>
                     </div>
@@ -982,54 +820,34 @@
             </div>
         </div>
 
-        <!-- ============================================================ -->
-        <!-- 关于页                                                       -->
-        <!-- ============================================================ -->
         <div class="page" id="page-about">
             <div class="page-inner">
                 <div class="content">
                     <div class="glass-card">
                         <span class="page-label">— 关于我们 —</span>
                         <h2 class="about-title">edoTech Studios</h2>
-                        <p class="about-desc">
-                            一个专注于用 PowerPoint 创造可能性的设计工作室。<br />
-                            我们相信，最好的创意往往诞生于最意想不到的工具之中。
-                        </p>
+                        <p class="about-desc">一个专注于用 PowerPoint 创造可能性的设计工作室。<br />我们相信，最好的创意往往诞生于最意想不到的工具之中。</p>
                         <div class="divider" style="margin-bottom:20px;"></div>
-
                         <div class="about-info">
                             <div class="info-row">
                                 <div class="icon-box"><span class="material-symbols-outlined">mail</span></div>
-                                <div class="text">
-                                    <strong>电子邮箱</strong><br />
-                                    <a href="mailto:2864297054@qq.com">2864297054@qq.com</a>
-                                </div>
+                                <div class="text"><strong>电子邮箱</strong><br /><a href="mailto:2864297054@qq.com">2864297054@qq.com</a></div>
                             </div>
                             <div class="info-row">
                                 <div class="icon-box"><span class="material-symbols-outlined">lightbulb</span></div>
-                                <div class="text">
-                                    <strong>核心理念</strong><br />
-                                    Powered by PowerPoint — 用演示文稿驱动创新
-                                </div>
+                                <div class="text"><strong>核心理念</strong><br />Powered by PowerPoint — 用演示文稿驱动创新</div>
                             </div>
                             <div class="info-row">
                                 <div class="icon-box"><span class="material-symbols-outlined">language</span></div>
-                                <div class="text">
-                                    <strong>项目地址</strong><br />
-                                    <a href="https://github.com/MacroYing/edoOS" target="_blank" rel="noopener">github.com/MacroYing/edoOS</a>
-                                </div>
+                                <div class="text"><strong>项目地址</strong><br /><a href="https://github.com/MacroYing/edoOS" target="_blank" rel="noopener">github.com/MacroYing/edoOS</a></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 
-    <!-- ============================================================ -->
-    <!-- 底部悬浮导航栏（纯文字）                                       -->
-    <!-- ============================================================ -->
     <nav class="bottom-nav" role="navigation" aria-label="主导航">
         <a data-target="home" class="active">首页</a>
         <a data-target="works">作品</a>
@@ -1037,7 +855,7 @@
     </nav>
 
     <script>
-        // ===== 开场 Splash 控制（含字体预加载） =====
+        // ===== 开场 Splash =====
         (function() {
             var splash = document.getElementById('splash');
             var minShowTime = 2800;
@@ -1045,48 +863,38 @@
 
             function closeSplash() {
                 var elapsed = Date.now() - startTime;
+                var fontsReady = [];
+                if (document.fonts && document.fonts.load) {
+                    fontsReady.push(document.fonts.load('1em "Material Symbols Outlined"'));
+                    fontsReady.push(document.fonts.load('1em "Google Sans Flex"'));
+                }
+                var waitAll = fontsReady.length ? Promise.all(fontsReady) : Promise.resolve();
 
-                // 等待字体加载完成后再关闭 Splash
-                var waitFont = document.fonts && document.fonts.load
-                    ? document.fonts.load('1em "Material Symbols Outlined"')
-                    : Promise.resolve();
-
-                waitFont.then(function() {
-                    // 保证至少展示 minShowTime 毫秒
+                waitAll.then(function() {
                     var remaining = Math.max(0, minShowTime - elapsed);
                     setTimeout(function() {
                         splash.classList.add('hide');
-                        setTimeout(function() {
-                            splash.classList.add('done');
-                        }, 900);
+                        setTimeout(function() { splash.classList.add('done'); }, 900);
                     }, remaining);
                 }).catch(function() {
-                    // 字体加载失败也正常关闭
                     var remaining = Math.max(0, minShowTime - elapsed);
                     setTimeout(function() {
                         splash.classList.add('hide');
-                        setTimeout(function() {
-                            splash.classList.add('done');
-                        }, 900);
+                        setTimeout(function() { splash.classList.add('done'); }, 900);
                     }, remaining);
                 });
             }
 
-            // 等页面所有资源加载完后再执行关闭流程
             window.addEventListener('load', closeSplash);
-
-            // 兜底：5 秒后强制关闭（含字体等待时间）
             setTimeout(function() {
                 if (!splash.classList.contains('done')) {
                     splash.classList.add('hide');
-                    setTimeout(function() {
-                        splash.classList.add('done');
-                    }, 900);
+                    setTimeout(function() { splash.classList.add('done'); }, 900);
                 }
             }, 5000);
         })();
 
-        // ===== 页面切换 =====
+        // ===== 页面切换 + 导航脉冲 =====
         (function() {
             var pages = {
                 home: document.getElementById('page-home'),
@@ -1106,7 +914,13 @@
                 }
                 for (var i = 0; i < navLinks.length; i++) {
                     var link = navLinks[i];
-                    link.classList.toggle('active', link.dataset.target === targetId);
+                    var isActive = link.dataset.target === targetId;
+                    link.classList.toggle('active', isActive);
+                    if (isActive) {
+                        link.classList.remove('pulse');
+                        void link.offsetWidth;
+                        link.classList.add('pulse');
+                    }
                 }
                 if (window.history && window.history.pushState) {
                     history.pushState(null, '', '#' + targetId);
@@ -1130,6 +944,25 @@
             var initialHash = location.hash.replace('#', '') || 'home';
             if (pages[initialHash]) switchPage(initialHash);
             else switchPage('home');
+        })();
+
+        // ===== 半透明圆形光标 =====
+        (function() {
+            if (window.innerWidth <= 768) return;
+
+            var cursor = document.getElementById('customCursor');
+            if (!cursor) return;
+
+            var rafId = null;
+
+            document.addEventListener('mousemove', function(e) {
+                if (rafId) return;
+                rafId = requestAnimationFrame(function() {
+                    cursor.style.left = e.clientX + 'px';
+                    cursor.style.top = e.clientY + 'px';
+                    rafId = null;
+                });
+            });
         })();
     </script>
 
